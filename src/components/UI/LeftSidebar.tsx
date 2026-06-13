@@ -3,36 +3,22 @@ import { useAeroStore } from '../../store';
 import { colormapCss } from '../../utils/colormap';
 import type { ColorMode, FlowMode, RenderMode } from '../../types';
 
-/* ------------------------------------------------------------------ */
-/* Design Feature Tree primitives                                      */
-/* ------------------------------------------------------------------ */
-
-/** Collapsible section with a chevron header. */
 function Section({ label, children }: { label: string; children: ReactNode }) {
   const [open, setOpen] = useState(true);
   return (
-    <div className="border-b border-divider">
+    <div className="border-b border-[#444]">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 px-2 py-0.5 text-left hover:bg-panel-raised"
+        className="flex w-full items-center justify-between px-2 py-[5px] text-left hover:bg-[#2f2f2f]"
       >
-        <span
-          className="text-[9px] text-muted transition-transform"
-          style={{ display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}
-        >
-          ▼
-        </span>
-        <span className="text-[11px] text-muted">{label}</span>
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#777]">{label}</span>
+        <span className="text-[9px] text-[#555]">{open ? '▾' : '▸'}</span>
       </button>
-      {open && <div className="py-0.5">{children}</div>}
+      {open && <div>{children}</div>}
     </div>
   );
 }
 
-/**
- * Inline parameter row — label left, editable value right. Clicking the
- * value switches it to a raw number input (Fusion 360 / Blender style).
- */
 function ParamRow({ label, value, min, max, step, unit, onChange, format }: {
   label: string;
   value: number;
@@ -48,14 +34,14 @@ function ParamRow({ label, value, min, max, step, unit, onChange, format }: {
   const display = format ? format(value) : String(value);
 
   return (
-    <div className="flex items-center justify-between px-2 py-[2px]">
-      <span className="text-[11px] text-muted">{label}</span>
+    <div className="flex items-center justify-between px-2 py-[2px] hover:bg-[#252525]">
+      <span className="text-[10px] uppercase tracking-wide text-[#777]">{label}</span>
       <div className="flex items-baseline gap-1">
         {editing ? (
           <input
             type="number"
             autoFocus
-            className="w-16 border border-engineering bg-track px-1 py-0 text-right text-[11px] text-ink outline-none"
+            className="w-16 border border-[#555] bg-[#1a1a1a] px-1 py-0 text-right font-mono text-[11px] text-[#e2e2e2] outline-none focus:border-engineering"
             value={draft}
             step={step}
             onChange={(e) => setDraft(e.target.value)}
@@ -73,40 +59,29 @@ function ParamRow({ label, value, min, max, step, unit, onChange, format }: {
           <button
             title="Click to edit"
             onClick={() => { setDraft(String(value)); setEditing(true); }}
-            className="w-16 text-right text-[11px] tabular-nums text-ink hover:text-engineering"
+            className="w-16 text-right font-mono text-[11px] font-medium tabular-nums text-[#e2e2e2] hover:text-engineering"
           >
             {display}
           </button>
         )}
-        {unit && <span className="w-8 text-[10px] text-muted">{unit}</span>}
+        {unit && <span className="w-8 text-[10px] text-[#666]">{unit}</span>}
       </div>
     </div>
   );
 }
 
-/**
- * Flat segmented strip. Active cell uses the muted engineering slate;
- * inactive cells have no background so they dissolve into the panel surface.
- * Only 1px dividers separate cells — no outer border box.
- */
 function SegStrip<T extends string>({ options, value, onChange }: {
   options: Array<{ id: T; label: string }>;
   value: T;
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex">
-      {options.map((o, i) => (
+    <div className="acad-seg-group">
+      {options.map((o) => (
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
-          className={[
-            'flex-1 py-[3px] text-[11px] transition-colors',
-            i > 0 ? 'border-l border-[#363636]' : '',
-            value === o.id
-              ? 'bg-engineering text-white'
-              : 'bg-panel text-muted hover:text-ink',
-          ].join(' ')}
+          className={`acad-seg-btn${value === o.id ? ' acad-seg-active' : ''}`}
         >
           {o.label}
         </button>
@@ -115,7 +90,6 @@ function SegStrip<T extends string>({ options, value, onChange }: {
   );
 }
 
-/** Compact ON/OFF text toggle. */
 function ToggleRow({ label, value, onChange }: {
   label: string;
   value: boolean;
@@ -124,25 +98,19 @@ function ToggleRow({ label, value, onChange }: {
   return (
     <button
       onClick={() => onChange(!value)}
-      className="flex w-full items-center justify-between px-2 py-[3px] text-left hover:bg-panel-raised"
+      className="flex w-full items-center justify-between px-2 py-[4px] text-left hover:bg-[#2f2f2f]"
     >
-      <span className="text-[11px] text-muted">{label}</span>
-      <span className={`text-[11px] font-semibold ${value ? 'text-engineering' : 'text-muted'}`}>
-        {value ? 'ON' : 'OFF'}
-      </span>
+      <span className="text-[10px] uppercase tracking-wide text-[#777]">{label}</span>
+      <span className={`acad-led${value ? ' acad-led-on' : ''}`} />
     </button>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* Sidebar                                                             */
-/* ------------------------------------------------------------------ */
 
 export function LeftSidebar() {
   const s = useAeroStore();
 
   return (
-    <aside className="hud-scroll flex w-72 shrink-0 flex-col overflow-y-auto border-r border-divider bg-panel">
+    <aside className="hud-scroll flex w-72 shrink-0 flex-col overflow-y-auto border-r border-[#444] bg-[#252525]">
       <Section label="Tunnel Conditions">
         <ParamRow
           label="Air Velocity"
@@ -153,7 +121,7 @@ export function LeftSidebar() {
           onChange={(v) => s.set({ speedKmh: v })}
         />
         <ParamRow
-          label="Air Density (ρ)"
+          label="Air Density ρ"
           value={s.airDensity}
           min={0.7} max={1.4} step={0.005}
           unit="kg/m³"
@@ -168,7 +136,7 @@ export function LeftSidebar() {
           onChange={(v) => s.set({ turbulence: v })}
         />
         <ParamRow
-          label="Surface Slip (ε)"
+          label="Surface Slip ε"
           value={s.slipEpsilon}
           min={0} max={1} step={0.01}
           format={(v) => v.toFixed(2)}
@@ -177,7 +145,7 @@ export function LeftSidebar() {
       </Section>
 
       <Section label="Flow Visualization">
-        <div className="px-2 py-1">
+        <div className="px-2 py-1.5">
           <SegStrip<FlowMode>
             options={[
               { id: 'field', label: 'Field' },
@@ -209,12 +177,12 @@ export function LeftSidebar() {
           </>
         )}
         {s.flowMode === 'probe' && (
-          <p className="px-2 py-1 text-[10px] leading-snug text-muted">
-            Drag the blue emitter handle in the viewport.
+          <p className="px-2 py-1 text-[10px] leading-snug text-[#666]">
+            Drag the emitter handle in the viewport.
           </p>
         )}
-        <div className="px-2 pb-1 pt-0.5">
-          <div className="mb-0.5 text-[10px] text-[#888888]">Color Mapping</div>
+        <div className="px-2 pb-1.5 pt-1">
+          <div className="mb-1 text-[10px] uppercase tracking-wide text-[#666]">Color Mapping</div>
           <SegStrip<ColorMode>
             options={[
               { id: 'velocity', label: 'Vel' },
@@ -225,9 +193,9 @@ export function LeftSidebar() {
             onChange={(colorMode) => s.set({ colorMode })}
           />
         </div>
-        <div className="px-2 pb-1">
-          <div className="h-1.5 w-full border border-divider" style={{ background: colormapCss() }} />
-          <div className="mt-0.5 flex justify-between text-[9px] text-[#888888]">
+        <div className="px-2 pb-2">
+          <div className="h-1.5 w-full border border-[#3a3a3a]" style={{ background: colormapCss() }} />
+          <div className="mt-0.5 flex justify-between text-[9px] text-[#555]">
             <span>Low</span>
             <span>High</span>
           </div>
@@ -235,7 +203,7 @@ export function LeftSidebar() {
       </Section>
 
       <Section label="Body Render">
-        <div className="px-2 py-1">
+        <div className="px-2 py-1.5">
           <SegStrip<RenderMode>
             options={[
               { id: 'solid', label: 'Solid' },

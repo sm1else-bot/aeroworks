@@ -9,84 +9,158 @@ body,
   margin: 0;
   background: #1e1e1e;
   overscroll-behavior: none;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 11px;
   color: #e2e2e2;
   -webkit-font-smoothing: antialiased;
 }
 
-/*
- * Ultra-thin CAD slider
- * Track: 2px uniform #444444 — no active-fill coloring on either side of thumb.
- * Thumb: sharp 8×12px square in #888888 — no glow, no round corners, no blue.
- */
+/* ─── AutoCAD-style segmented toolbar button groups ─── */
+
+.acad-seg-group {
+  display: flex;
+  border: 1px solid #555;
+}
+
+.acad-seg-btn {
+  flex: 1;
+  padding: 3px 0;
+  font-size: 11px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  text-align: center;
+  border: none;
+  border-left: 1px solid #444;
+  cursor: pointer;
+  background: #2e2e2e;
+  color: #909090;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  transition: background 0.08s, color 0.08s;
+  user-select: none;
+}
+
+.acad-seg-btn:first-child {
+  border-left: none;
+}
+
+.acad-seg-btn:hover:not(.acad-seg-active) {
+  background: #363636;
+  color: #d0d0d0;
+}
+
+.acad-seg-active {
+  background: #1a1a1a;
+  color: #e2e2e2;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── LED indicator dot ─── */
+
+.acad-led {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #252525;
+  border: 1px solid #1a1a1a;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.acad-led-on {
+  background: radial-gradient(circle at 38% 32%, #70c070, #2e7a2e);
+  border-color: #1e4a1e;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 0 5px rgba(60, 180, 60, 0.35);
+}
+
+/* ─── General bevel button (menubar, actions) ─── */
+
+.acad-btn {
+  border: 1px solid #555;
+  background: #2e2e2e;
+  color: #c0c0c0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.08s, color 0.08s;
+}
+
+.acad-btn:hover {
+  background: #383838;
+  color: #e0e0e0;
+}
+
+.acad-btn:active {
+  background: #1e1e1e;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── CAD range slider — recessed inset track + beveled raised thumb ─── */
+
 .aero-range {
   -webkit-appearance: none;
   appearance: none;
-  height: 14px;          /* click-target height */
+  height: 18px;
   background: transparent;
   cursor: ew-resize;
   display: block;
   width: 100%;
 }
 
-/* WebKit (Chrome, Safari, Edge) */
+/* WebKit (Chrome, Edge, Safari) */
 .aero-range::-webkit-slider-runnable-track {
-  height: 2px;
+  height: 4px;
   border-radius: 0;
-  background: #444444;   /* uniform — no active-side coloring */
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.85);
 }
+
 .aero-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  margin-top: -5px;      /* (12px thumb − 2px track) / 2 */
-  height: 12px;
-  width: 8px;
+  margin-top: -7px;
+  height: 16px;
+  width: 10px;
   border-radius: 0;
-  background: #888888;
-  border: none;
-  box-shadow: none;
+  background: linear-gradient(to bottom, #6e6e6e 0%, #484848 100%);
+  border: 1px solid #2e2e2e;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.55);
 }
+
 .aero-range::-webkit-slider-thumb:hover {
-  background: #aaaaaa;   /* neutral gray hover — no blue */
+  background: linear-gradient(to bottom, #808080 0%, #585858 100%);
 }
+
 .aero-range:focus {
   outline: none;
 }
 
 /* Firefox */
 .aero-range::-moz-range-track {
-  height: 2px;
+  height: 4px;
   border-radius: 0;
-  background: #444444;
-}
-.aero-range::-moz-range-progress {
-  background: #444444;   /* suppress Firefox filled-portion tinting */
-}
-.aero-range::-moz-range-thumb {
-  height: 12px;
-  width: 8px;
-  border-radius: 0;
-  background: #888888;
-  border: none;
-  box-shadow: none;
-}
-.aero-range::-moz-range-thumb:hover {
-  background: #aaaaaa;
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.85);
 }
 
-/* ---- compact panel scrollbars ---- */
-.hud-scroll::-webkit-scrollbar {
-  width: 6px;
+.aero-range::-moz-range-progress {
+  background: #141414;
 }
-.hud-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.hud-scroll::-webkit-scrollbar-thumb {
-  background: #3d3d3d;
+
+.aero-range::-moz-range-thumb {
+  height: 16px;
+  width: 10px;
   border-radius: 0;
+  background: linear-gradient(to bottom, #6e6e6e, #484848);
+  border: 1px solid #2e2e2e;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  cursor: ew-resize;
 }
-.hud-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #3d3d3d transparent;
-}
+
+/* ─── Compact panel scrollbars ─── */
+
+.hud-scroll::-webkit-scrollbar { width: 6px; }
+.hud-scroll::-webkit-scrollbar-track { background: transparent; }
+.hud-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 0; }
+.hud-scroll { scrollbar-width: thin; scrollbar-color: #444 transparent; }

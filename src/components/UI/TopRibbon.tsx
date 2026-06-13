@@ -21,10 +21,10 @@ function FpsMeter() {
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, []);
-  const tone = fps >= 50 ? 'text-ink' : fps >= 30 ? 'text-muted' : 'text-[#D16969]';
+  const tone = fps >= 50 ? 'text-[#e2e2e2]' : fps >= 30 ? 'text-[#a0a0a0]' : 'text-[#c47a7a]';
   return (
     <span className={`text-[12px] font-semibold tabular-nums ${tone}`}>
-      {fps}<span className="ml-0.5 text-[10px] font-normal text-muted">fps</span>
+      {fps}<span className="ml-0.5 text-[10px] font-normal text-[#666]">fps</span>
     </span>
   );
 }
@@ -46,27 +46,29 @@ export function TopRibbon() {
 
   return (
     <div className="relative shrink-0">
-      <div className="flex h-10 items-stretch border-b border-divider bg-panel">
-        {/* Brand */}
-        <div className="flex shrink-0 items-center border-r border-divider px-3">
-          <span className="text-[13px] font-semibold text-ink">AeroWorks</span>
-        </div>
+      {/* Electron titlebar — becomes the native drag region when wired up */}
+      <div
+        className="flex h-7 shrink-0 select-none items-center border-b border-[#242424] bg-[#161616] px-3"
+        style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}
+      >
+        <span className="text-[10px] uppercase tracking-[0.15em] text-[#4a4a4a]">AeroWorks</span>
+      </div>
 
-        {/* Flat menu links */}
+      {/* Menubar */}
+      <div className="flex h-9 items-stretch border-b border-[#444] bg-[#2a2a2a]">
         {MENU_ITEMS.map((item) => (
           <button
             key={item}
-            className="flex items-center border-r border-divider px-3 text-[12px] text-muted hover:bg-panel-raised hover:text-ink"
+            className="flex items-center border-r border-[#3a3a3a] px-3 text-[12px] text-[#aaa] hover:bg-[#363636] hover:text-[#e0e0e0] active:bg-[#1e1e1e]"
           >
             {item}
           </button>
         ))}
 
-        {/* Actions */}
-        <div className="flex items-center gap-1.5 border-r border-divider px-2">
+        <div className="flex items-center gap-1.5 border-r border-[#3a3a3a] px-2">
           <button
             onClick={() => fileRef.current?.click()}
-            className="flex h-6 items-center bg-engineering px-2.5 text-[11px] font-semibold text-white hover:bg-[#5C7280]"
+            className="acad-btn flex h-6 items-center px-2.5 text-[11px] font-semibold"
           >
             Import
           </button>
@@ -83,25 +85,24 @@ export function TopRibbon() {
           />
           <button
             onClick={resetToDefaultCar}
-            className="flex h-6 items-center border border-divider px-2.5 text-[11px] text-muted hover:text-ink"
+            className="acad-btn flex h-6 items-center px-2.5 text-[11px]"
           >
             Reset Car
           </button>
         </div>
 
-        {/* Model info + FPS — right-aligned */}
-        <div className="ml-auto flex items-center gap-4 border-l border-divider px-3">
+        <div className="ml-auto flex items-center gap-4 border-l border-[#3a3a3a] px-3">
           {importError ? (
-            <span className="max-w-56 truncate text-[11px] text-[#D16969]">{importError}</span>
+            <span className="max-w-56 truncate text-[11px] text-[#c47a7a]">{importError}</span>
           ) : (
             <>
-              <span className="max-w-56 truncate text-[11px] text-muted" title={modelName}>
+              <span className="max-w-56 truncate text-[11px] text-[#666]" title={modelName}>
                 {modelName || 'No model loaded'}
               </span>
-              <span className="text-[11px] tabular-nums text-muted">
+              <span className="text-[11px] tabular-nums text-[#666]">
                 {triCount.toLocaleString()} tris
               </span>
-              <span className="text-[11px] tabular-nums text-muted">
+              <span className="text-[11px] tabular-nums text-[#666]">
                 {fieldManager.lastBuildMs.toFixed(0)} ms grid
               </span>
             </>
@@ -110,9 +111,8 @@ export function TopRibbon() {
         </div>
       </div>
 
-      {/* Import progress — 2px strip below the ribbon */}
       {importProgress !== null && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-track">
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#333]">
           <div
             className="h-full bg-engineering transition-[width] duration-100"
             style={{ width: `${importProgress * 100}%` }}
@@ -123,7 +123,6 @@ export function TopRibbon() {
   );
 }
 
-/** Full-window drop zone — overlaid above everything. */
 export function FileDropOverlay() {
   const [dragging, setDragging] = useState(false);
 
@@ -160,8 +159,8 @@ export function FileDropOverlay() {
 
   if (!dragging) return null;
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center border-2 border-dashed border-engineering bg-engineering/5">
-      <div className="border border-divider bg-panel px-8 py-4 text-[13px] font-semibold text-ink">
+    <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center border-2 border-dashed border-[#555] bg-[#1e1e1e]/80">
+      <div className="border border-[#555] bg-[#2a2a2a] px-8 py-4 text-[13px] font-semibold text-[#e2e2e2]">
         Drop .stl / .obj to ingest
       </div>
     </div>
