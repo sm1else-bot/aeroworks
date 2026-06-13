@@ -210,9 +210,12 @@ export function useAeroTelemetry(): TelemetryState {
       );
       latestRef.current = sample;
       partForcesRef.current = parts;
-      const h = historyRef.current;
+      // New array reference each tick so React's Object.is detects the change
+      // and downstream useCallback/useEffect dependencies re-fire correctly.
+      const h = historyRef.current.slice();
       h.push(sample);
       if (h.length > HISTORY_LENGTH) h.splice(0, h.length - HISTORY_LENGTH);
+      historyRef.current = h;
       tick();
     }, 100);
     return () => window.clearInterval(id);
