@@ -37,8 +37,8 @@ function DataRow({ label, value, unit, accent }: {
 /* ------------------------------------------------------------------ */
 
 const TRACES = [
-  { key: 'fz', label: 'Fz', color: '#007ACC', extract: (s: TelemetrySample) => s.fz / 1000 },
-  { key: 'fx', label: 'Fx', color: '#D16969', extract: (s: TelemetrySample) => s.fx / 1000 },
+  { key: 'fz', label: 'Fz', color: '#4A6572', extract: (s: TelemetrySample) => s.fz / 1000 },
+  { key: 'fx', label: 'Fx', color: '#C47A7A', extract: (s: TelemetrySample) => s.fx / 1000 },
   { key: 'ld', label: 'L/D', color: '#6A9955', extract: (s: TelemetrySample) => s.efficiency },
 ] as const;
 
@@ -96,7 +96,7 @@ function MultiWaveform({ history }: { history: TelemetrySample[] }) {
     }
 
     // Inline legend top-left
-    ctx.font = '10px system-ui, sans-serif';
+    ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     let lx = 5;
     for (const trace of TRACES) {
       ctx.strokeStyle = trace.color; ctx.lineWidth = 2;

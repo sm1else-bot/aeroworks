@@ -14,7 +14,7 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
     <div className="border-b border-divider">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 px-2 py-1 text-left hover:bg-panel-raised"
+        className="flex w-full items-center gap-1.5 px-2 py-0.5 text-left hover:bg-panel-raised"
       >
         <span
           className="text-[9px] text-muted transition-transform"
@@ -48,7 +48,7 @@ function ParamRow({ label, value, min, max, step, unit, onChange, format }: {
   const display = format ? format(value) : String(value);
 
   return (
-    <div className="flex items-center justify-between px-2 py-[3px]">
+    <div className="flex items-center justify-between px-2 py-[2px]">
       <span className="text-[11px] text-muted">{label}</span>
       <div className="flex items-baseline gap-1">
         {editing ? (
@@ -84,22 +84,28 @@ function ParamRow({ label, value, min, max, step, unit, onChange, format }: {
   );
 }
 
-/** Flat zero-gap segmented strip. */
+/**
+ * Flat segmented strip. Active cell uses the muted engineering slate;
+ * inactive cells have no background so they dissolve into the panel surface.
+ * Only 1px dividers separate cells — no outer border box.
+ */
 function SegStrip<T extends string>({ options, value, onChange }: {
   options: Array<{ id: T; label: string }>;
   value: T;
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex border border-divider">
+    <div className="flex">
       {options.map((o, i) => (
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
           className={[
             'flex-1 py-[3px] text-[11px] transition-colors',
-            i > 0 ? 'border-l border-divider' : '',
-            value === o.id ? 'bg-engineering text-white' : 'bg-panel-raised text-muted hover:text-ink',
+            i > 0 ? 'border-l border-[#363636]' : '',
+            value === o.id
+              ? 'bg-engineering text-white'
+              : 'bg-panel text-muted hover:text-ink',
           ].join(' ')}
         >
           {o.label}
@@ -208,7 +214,7 @@ export function LeftSidebar() {
           </p>
         )}
         <div className="px-2 pb-1 pt-0.5">
-          <div className="mb-0.5 text-[10px] text-muted">Color Mapping</div>
+          <div className="mb-0.5 text-[10px] text-[#888888]">Color Mapping</div>
           <SegStrip<ColorMode>
             options={[
               { id: 'velocity', label: 'Vel' },
@@ -221,7 +227,7 @@ export function LeftSidebar() {
         </div>
         <div className="px-2 pb-1">
           <div className="h-1.5 w-full border border-divider" style={{ background: colormapCss() }} />
-          <div className="mt-0.5 flex justify-between text-[9px] text-muted">
+          <div className="mt-0.5 flex justify-between text-[9px] text-[#888888]">
             <span>Low</span>
             <span>High</span>
           </div>

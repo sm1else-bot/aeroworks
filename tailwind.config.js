@@ -12,10 +12,10 @@ export default {
         track: '#444444', // thin slider track
         ink: '#E2E2E2', // high-contrast value text
         muted: '#A0A0A0', // flat muted unit / label text
-        engineering: '#007ACC', // flat solid selection blue
+        engineering: '#4A6572', // muted industrial slate — replaces saturated blue
       },
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
       borderRadius: {
         none: '0',
