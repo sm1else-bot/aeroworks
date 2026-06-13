@@ -51,7 +51,7 @@ export function SmokeProbe() {
       )}
       <mesh ref={setHandle} position={probePosition.toArray()}>
         <sphereGeometry args={[0.045, 18, 14]} />
-        <meshStandardMaterial color="#007ACC" metalness={0.2} roughness={0.5} />
+        <meshStandardMaterial color="#4A6572" metalness={0.2} roughness={0.5} />
       </mesh>
       <ParticleCloud
         sim={sim}

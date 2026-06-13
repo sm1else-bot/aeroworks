@@ -37,7 +37,7 @@ function TunnelShell() {
       {/* Inlet and outlet reference planes */}
       <mesh position={[TUNNEL.min.x, center.y, center.z]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[size.z, size.y]} />
-        <meshBasicMaterial color="#007ACC" transparent opacity={0.04} side={THREE.DoubleSide} depthWrite={false} />
+        <meshBasicMaterial color="#4A6572" transparent opacity={0.04} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[TUNNEL.max.x, center.y, center.z]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[size.z, size.y]} />

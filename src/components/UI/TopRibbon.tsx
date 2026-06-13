@@ -66,7 +66,7 @@ export function TopRibbon() {
         <div className="flex items-center gap-1.5 border-r border-divider px-2">
           <button
             onClick={() => fileRef.current?.click()}
-            className="flex h-6 items-center bg-engineering px-2.5 text-[11px] font-semibold text-white hover:bg-[#0a88dd]"
+            className="flex h-6 items-center bg-engineering px-2.5 text-[11px] font-semibold text-white hover:bg-[#5C7280]"
           >
             Import
           </button>

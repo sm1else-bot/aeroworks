@@ -30,7 +30,7 @@ function bakePressureColors(geometry: THREE.BufferGeometry): void {
 function PartMaterial({ part, mode, ghostOpacity }: { part: CarPart; mode: RenderMode; ghostOpacity: number }) {
   switch (mode) {
     case 'wireframe':
-      return <meshBasicMaterial key="wf" color={part.adjustable ? '#007ACC' : '#888888'} wireframe transparent opacity={0.55} />;
+      return <meshBasicMaterial key="wf" color={part.adjustable ? '#4A6572' : '#888888'} wireframe transparent opacity={0.55} />;
     case 'xray':
       return (
         <meshStandardMaterial
