@@ -6,16 +6,13 @@ export function Panel({ title, children, className = '' }: {
   className?: string;
 }) {
   return (
-    <div className={`pointer-events-auto rounded-lg border border-carbon-600/60 bg-carbon-900/85 shadow-hud backdrop-blur-md ${className}`}>
+    <div className={`pointer-events-auto rounded-none border border-divider bg-panel ${className}`}>
       {title && (
-        <div className="flex items-center gap-2 border-b border-carbon-700/70 px-3 py-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan shadow-[0_0_6px_#22d3ee]" />
-          <h2 className="font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
-            {title}
-          </h2>
+        <div className="border-b border-divider px-2.5 py-1.5">
+          <h2 className="text-[11px] font-semibold text-ink">{title}</h2>
         </div>
       )}
-      <div className="px-3 py-2">{children}</div>
+      <div className="px-2.5 py-2">{children}</div>
     </div>
   );
 }
@@ -33,13 +30,13 @@ export function Slider({ label, value, min, max, step, unit, onChange, format, a
 }) {
   return (
     <label className="block py-1">
-      <div className="mb-0.5 flex items-baseline justify-between">
-        <span className="font-display text-[11px] font-medium uppercase tracking-wider text-slate-400">
-          {label}
-        </span>
-        <span className={`font-mono text-[11px] tabular-nums ${accent ? 'text-accent-cyan' : 'text-slate-200'}`}>
-          {format ? format(value) : value}
-          {unit && <span className="ml-0.5 text-slate-500">{unit}</span>}
+      <div className="mb-1 flex items-baseline justify-between">
+        <span className="text-[12px] text-muted">{label}</span>
+        <span className="text-[12px] tabular-nums">
+          <span className={accent ? 'text-engineering' : 'text-ink'}>
+            {format ? format(value) : value}
+          </span>
+          {unit && <span className="ml-1 text-muted">{unit}</span>}
         </span>
       </div>
       <input
@@ -61,15 +58,15 @@ export function Segmented<T extends string>({ options, value, onChange }: {
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex overflow-hidden rounded-md border border-carbon-600/70 bg-carbon-850">
-      {options.map((o) => (
+    <div className="flex rounded-none border border-divider bg-panel-raised">
+      {options.map((o, i) => (
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
-          className={`flex-1 px-1.5 py-1 font-display text-[10.5px] font-semibold uppercase tracking-wider transition-colors ${
+          className={`flex-1 px-1.5 py-1 text-[12px] transition-colors ${i > 0 ? 'border-l border-divider' : ''} ${
             value === o.id
-              ? 'bg-accent-cyan/15 text-accent-cyan shadow-[inset_0_-2px_0_#22d3ee]'
-              : 'text-slate-500 hover:bg-carbon-700/50 hover:text-slate-300'
+              ? 'bg-engineering text-white'
+              : 'text-muted hover:bg-divider hover:text-ink'
           }`}
         >
           {o.label}
@@ -89,18 +86,14 @@ export function Toggle({ label, value, onChange }: {
       onClick={() => onChange(!value)}
       className="flex w-full items-center justify-between py-1 text-left"
     >
-      <span className="font-display text-[11px] font-medium uppercase tracking-wider text-slate-400">
-        {label}
-      </span>
+      <span className="text-[12px] text-muted">{label}</span>
       <span
-        className={`relative h-3.5 w-7 rounded-full transition-colors ${
-          value ? 'bg-accent-cyan/70' : 'bg-carbon-600'
+        className={`flex h-4 w-8 items-center rounded-none border border-divider transition-colors ${
+          value ? 'bg-engineering' : 'bg-track'
         }`}
       >
         <span
-          className={`absolute top-0.5 h-2.5 w-2.5 rounded-full bg-white transition-all ${
-            value ? 'left-4' : 'left-0.5'
-          }`}
+          className={`h-3 w-3 bg-ink transition-all ${value ? 'ml-4' : 'ml-0.5'}`}
         />
       </span>
     </button>
@@ -114,20 +107,18 @@ export function StatChip({ label, value, unit, tone = 'default' }: {
   tone?: 'default' | 'cyan' | 'amber' | 'green' | 'red';
 }) {
   const tones = {
-    default: 'text-slate-200',
-    cyan: 'text-accent-cyan',
-    amber: 'text-accent-amber',
-    green: 'text-accent-green',
-    red: 'text-accent-red',
+    default: 'text-ink',
+    cyan: 'text-engineering',
+    amber: 'text-ink',
+    green: 'text-ink',
+    red: 'text-ink',
   } as const;
   return (
-    <div className="rounded-md border border-carbon-700/60 bg-carbon-850/80 px-2 py-1">
-      <div className="font-display text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-500">
-        {label}
-      </div>
-      <div className={`font-mono text-sm font-bold tabular-nums leading-tight ${tones[tone]}`}>
+    <div className="rounded-none border border-divider bg-panel-raised px-2 py-1">
+      <div className="text-[10px] text-muted">{label}</div>
+      <div className={`text-sm font-semibold tabular-nums leading-tight ${tones[tone]}`}>
         {value}
-        {unit && <span className="ml-0.5 text-[10px] font-normal text-slate-500">{unit}</span>}
+        {unit && <span className="ml-1 text-[10px] font-normal text-muted">{unit}</span>}
       </div>
     </div>
   );

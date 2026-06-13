@@ -21,7 +21,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative h-screen w-screen select-none overflow-hidden bg-carbon-950">
+    <div className="relative h-screen w-screen select-none overflow-hidden bg-viewport">
       <div className="absolute inset-0">{hasModel && <TunnelScene />}</div>
 
       {/* HUD overlay — panels re-enable pointer events individually */}

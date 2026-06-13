@@ -32,16 +32,16 @@ function TunnelShell() {
   return (
     <group>
       <lineSegments geometry={edges} position={center}>
-        <lineBasicMaterial color="#2a3a55" transparent opacity={0.55} />
+        <lineBasicMaterial color="#3D3D3D" transparent opacity={0.9} />
       </lineSegments>
-      {/* Inlet (cyan) and outlet (amber) planes */}
+      {/* Inlet and outlet reference planes */}
       <mesh position={[TUNNEL.min.x, center.y, center.z]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[size.z, size.y]} />
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.045} side={THREE.DoubleSide} depthWrite={false} />
+        <meshBasicMaterial color="#007ACC" transparent opacity={0.04} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[TUNNEL.max.x, center.y, center.z]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[size.z, size.y]} />
-        <meshBasicMaterial color="#fbbf24" transparent opacity={0.035} side={THREE.DoubleSide} depthWrite={false} />
+        <meshBasicMaterial color="#A0A0A0" transparent opacity={0.03} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -68,10 +68,10 @@ export function TunnelScene() {
       camera={{ position: [-6.2, 3.0, 6.4], fov: 42, near: 0.1, far: 120 }}
       shadows
     >
-      <color attach="background" args={['#07090c']} />
-      <fog attach="fog" args={['#07090c', 22, 48]} />
+      <color attach="background" args={['#1E1E1E']} />
+      <fog attach="fog" args={['#1E1E1E', 26, 54]} />
 
-      <hemisphereLight args={['#3d4f66', '#0b0d11', 0.85]} />
+      <hemisphereLight args={['#5a5a5a', '#1a1a1a', 0.9]} />
       <directionalLight
         position={[6, 9, 5]}
         intensity={1.7}
@@ -82,20 +82,20 @@ export function TunnelScene() {
         shadow-camera-top={6}
         shadow-camera-bottom={-6}
       />
-      <directionalLight position={[-7, 4, -6]} intensity={0.55} color="#7dd3fc" />
+      <directionalLight position={[-7, 4, -6]} intensity={0.5} color="#c8c8c8" />
 
       {/* Ground */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[2, -0.002, 0]} receiveShadow>
         <planeGeometry args={[80, 80]} />
-        <meshStandardMaterial color="#0a0c10" roughness={0.95} metalness={0} />
+        <meshStandardMaterial color="#202020" roughness={0.95} metalness={0} />
       </mesh>
       <Grid
         position={[2, 0.002, 0]}
         args={[40, 40]}
         cellSize={0.5}
-        cellColor="#1a2433"
+        cellColor="#333333"
         sectionSize={2.5}
-        sectionColor="#2b3d59"
+        sectionColor="#454545"
         fadeDistance={34}
         fadeStrength={1.4}
         infiniteGrid

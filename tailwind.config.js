@@ -4,27 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        carbon: {
-          950: '#07090c',
-          900: '#0b0e13',
-          850: '#10141b',
-          800: '#161b24',
-          700: '#1f2733',
-          600: '#2b3545',
-        },
-        accent: {
-          cyan: '#22d3ee',
-          amber: '#fbbf24',
-          red: '#f87171',
-          green: '#4ade80',
-        },
+        // Autodesk-style engineering workspace palette.
+        viewport: '#1E1E1E', // 3D canvas background
+        panel: '#2B2B2B', // panel container fill
+        'panel-raised': '#323232', // recessed segmented strip cells
+        divider: '#3D3D3D', // ultra-subtle dividers / borders
+        track: '#444444', // thin slider track
+        ink: '#E2E2E2', // high-contrast value text
+        muted: '#A0A0A0', // flat muted unit / label text
+        engineering: '#007ACC', // flat solid selection blue
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', 'Consolas', '"SF Mono"', 'monospace'],
-        display: ['Rajdhani', '"Segoe UI"', 'system-ui', 'sans-serif'],
+        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
-      boxShadow: {
-        hud: '0 0 0 1px rgba(34,211,238,0.12), 0 8px 32px rgba(0,0,0,0.6)',
+      borderRadius: {
+        none: '0',
       },
     },
   },

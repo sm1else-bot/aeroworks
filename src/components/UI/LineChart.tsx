@@ -46,7 +46,7 @@ export function LineChart({ data, color, label, unit, height = 64, format }: Pro
     max += span * 0.15;
 
     // Grid.
-    ctx.strokeStyle = 'rgba(80,100,130,0.16)';
+    ctx.strokeStyle = 'rgba(160,160,160,0.14)';
     ctx.lineWidth = 1;
     for (let i = 1; i < 4; i++) {
       const y = (h * i) / 4;
@@ -96,11 +96,9 @@ export function LineChart({ data, color, label, unit, height = 64, format }: Pro
   return (
     <div className="mb-1.5">
       <div className="flex items-baseline justify-between">
-        <span className="font-display text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
-          {label}
-        </span>
-        <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color }}>
-          {fmt(latest)} <span className="text-[9px] font-normal text-slate-500">{unit}</span>
+        <span className="text-[11px] text-muted">{label}</span>
+        <span className="text-[12px] font-semibold tabular-nums" style={{ color }}>
+          {fmt(latest)} <span className="text-[10px] font-normal text-muted">{unit}</span>
         </span>
       </div>
       <div className="w-full">

@@ -8,9 +8,9 @@ function densityToAltitude(rho: number): number {
 }
 
 const LEGEND_LABELS = {
-  velocity: ['stagnant', 'freestream+', 'velocity magnitude'],
-  pressure: ['suction (low p)', 'stagnation (high p)', 'static pressure Δ'],
-  vorticity: ['laminar', 'shed vortex', 'vorticity |∇×v|'],
+  velocity: ['Stagnant', 'Freestream+', 'Velocity magnitude'],
+  pressure: ['Suction (low p)', 'Stagnation (high p)', 'Static pressure Δ'],
+  vorticity: ['Laminar', 'Shed vortex', 'Vorticity |∇×v|'],
 } as const;
 
 export function ControlDock() {
@@ -29,14 +29,14 @@ export function ControlDock() {
           onChange={(v) => s.set({ speedKmh: v })}
         />
         <Slider
-          label="Air Density ρ"
+          label="Air Density (ρ)"
           value={s.airDensity}
           min={0.7} max={1.4} step={0.005}
           unit="kg/m³"
           format={(v) => v.toFixed(3)}
           onChange={(v) => s.set({ airDensity: v })}
         />
-        <div className="-mt-1 mb-1 text-right font-mono text-[9px] text-slate-600">
+        <div className="-mt-1 mb-1 text-right text-[10px] text-muted">
           ≈ {densityToAltitude(s.airDensity).toFixed(0)} m ISA altitude
         </div>
         <Slider
@@ -47,7 +47,7 @@ export function ControlDock() {
           onChange={(v) => s.set({ turbulence: v })}
         />
         <Slider
-          label="Surface Slip ε"
+          label="Surface Slip (ε)"
           value={s.slipEpsilon}
           min={0} max={1} step={0.01}
           format={(v) => v.toFixed(2)}
@@ -56,7 +56,7 @@ export function ControlDock() {
       </Panel>
 
       <Panel title="Flow Visualization">
-        <div className="mb-1.5">
+        <div className="mb-2">
           <Segmented
             options={[
               { id: 'field', label: 'Field' },
@@ -88,15 +88,13 @@ export function ControlDock() {
           </>
         )}
         {s.flowMode === 'probe' && (
-          <p className="py-1 text-[10px] leading-snug text-slate-500">
-            Drag the cyan emitter with the gizmo to trace airflow around
+          <p className="py-1 text-[11px] leading-snug text-muted">
+            Drag the emitter handle with the gizmo to trace airflow around
             specific components — undertray, flap gaps, wake.
           </p>
         )}
-        <div className="mb-1.5 mt-1">
-          <div className="mb-1 font-display text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
-            Color Map
-          </div>
+        <div className="mb-2 mt-1">
+          <div className="mb-1 text-[11px] text-muted">Color Map</div>
           <Segmented
             options={[
               { id: 'velocity', label: 'Vel' },
@@ -109,14 +107,14 @@ export function ControlDock() {
         </div>
         <div className="mt-1">
           <div
-            className="h-2 w-full rounded-sm"
+            className="h-2 w-full rounded-none border border-divider"
             style={{ background: colormapCss() }}
           />
-          <div className="mt-0.5 flex justify-between font-mono text-[8.5px] text-slate-500">
+          <div className="mt-1 flex justify-between text-[10px] text-muted">
             <span>{LEGEND_LABELS[s.colorMode][0]}</span>
-            <span className="text-slate-400">{LEGEND_LABELS[s.colorMode][2]}</span>
             <span>{LEGEND_LABELS[s.colorMode][1]}</span>
           </div>
+          <div className="mt-0.5 text-[10px] text-muted">{LEGEND_LABELS[s.colorMode][2]}</div>
         </div>
       </Panel>
 
@@ -142,7 +140,7 @@ export function ControlDock() {
             />
           </div>
         )}
-        <div className="mt-1 border-t border-carbon-700/60 pt-1">
+        <div className="mt-2 border-t border-divider pt-1.5">
           <Toggle label="Tunnel Shell" value={s.showTunnel} onChange={(v) => s.set({ showTunnel: v })} />
           <Toggle label="Pause Flow" value={s.paused} onChange={(v) => s.set({ paused: v })} />
         </div>

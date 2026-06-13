@@ -21,10 +21,10 @@ function FpsMeter() {
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, []);
-  const tone = fps >= 50 ? 'text-accent-green' : fps >= 30 ? 'text-accent-amber' : 'text-accent-red';
+  const tone = fps >= 50 ? 'text-ink' : fps >= 30 ? 'text-muted' : 'text-[#D16969]';
   return (
-    <span className={`font-mono text-[11px] font-bold tabular-nums ${tone}`}>
-      {fps} <span className="text-[9px] font-normal text-slate-500">FPS</span>
+    <span className={`text-[12px] font-semibold tabular-nums ${tone}`}>
+      {fps} <span className="text-[10px] font-normal text-muted">FPS</span>
     </span>
   );
 }
@@ -42,30 +42,26 @@ export function TopBar() {
   }, 0);
 
   return (
-    <div className="pointer-events-auto flex items-center gap-3 rounded-lg border border-carbon-600/60 bg-carbon-900/85 px-3 py-1.5 shadow-hud backdrop-blur-md">
+    <div className="pointer-events-auto flex items-center gap-3 rounded-none border border-divider bg-panel px-3 py-1.5">
       <div className="flex items-baseline gap-2">
-        <h1 className="font-display text-sm font-bold uppercase tracking-[0.25em] text-slate-100">
-          Aero<span className="text-accent-cyan">Works</span>
-        </h1>
-        <span className="font-display text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-600">
-          Virtual Wind Tunnel
-        </span>
+        <h1 className="text-sm font-semibold text-ink">AeroWorks</h1>
+        <span className="text-[11px] text-muted">Virtual Wind Tunnel</span>
       </div>
 
-      <div className="h-4 w-px bg-carbon-600" />
+      <div className="h-4 w-px bg-divider" />
 
-      <div className="max-w-72 truncate font-mono text-[10.5px] text-slate-400" title={modelName}>
-        {modelName || 'no model'}
+      <div className="max-w-72 truncate text-[12px] text-muted" title={modelName}>
+        {modelName || 'No model'}
       </div>
-      <div className="font-mono text-[10px] text-slate-600">
+      <div className="text-[11px] text-muted">
         {triCount.toLocaleString()} tris · grid {fieldManager.lastBuildMs.toFixed(0)} ms
       </div>
 
-      <div className="h-4 w-px bg-carbon-600" />
+      <div className="h-4 w-px bg-divider" />
 
       <button
         onClick={() => fileRef.current?.click()}
-        className="rounded border border-accent-cyan/50 bg-accent-cyan/10 px-2.5 py-0.5 font-display text-[10.5px] font-bold uppercase tracking-wider text-accent-cyan transition-colors hover:bg-accent-cyan/25"
+        className="rounded-none border border-engineering bg-engineering px-2.5 py-1 text-[12px] text-white transition-colors hover:bg-[#0a88dd]"
       >
         Import .stl / .obj
       </button>
@@ -82,15 +78,15 @@ export function TopBar() {
       />
       <button
         onClick={resetToDefaultCar}
-        className="rounded border border-carbon-600 px-2.5 py-0.5 font-display text-[10.5px] font-bold uppercase tracking-wider text-slate-400 transition-colors hover:border-slate-500 hover:text-slate-200"
+        className="rounded-none border border-divider bg-panel-raised px-2.5 py-1 text-[12px] text-muted transition-colors hover:text-ink"
       >
         Reset Car
       </button>
 
       <div className="ml-auto flex items-center gap-3">
         {importError && (
-          <span className="max-w-64 truncate font-mono text-[10px] text-accent-red" title={importError}>
-            ⚠ {importError}
+          <span className="max-w-64 truncate text-[11px] text-[#D16969]" title={importError}>
+            {importError}
           </span>
         )}
         <FpsMeter />
@@ -137,18 +133,16 @@ export function FileDropOverlay() {
 
   if (importProgress !== null) {
     return (
-      <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-carbon-950/75 backdrop-blur-sm">
-        <div className="w-80 rounded-lg border border-carbon-600 bg-carbon-900 p-5 shadow-hud">
-          <div className="mb-2 font-display text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
-            Parsing geometry…
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-carbon-700">
+      <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-viewport/80">
+        <div className="w-80 rounded-none border border-divider bg-panel p-5">
+          <div className="mb-2 text-[12px] font-semibold text-ink">Parsing geometry…</div>
+          <div className="h-2 overflow-hidden rounded-none border border-divider bg-track">
             <div
-              className="h-full bg-accent-cyan transition-[width] duration-100"
+              className="h-full bg-engineering transition-[width] duration-100"
               style={{ width: `${importProgress * 100}%` }}
             />
           </div>
-          <div className="mt-1.5 text-right font-mono text-[10px] text-slate-500">
+          <div className="mt-1.5 text-right text-[11px] text-muted">
             {(importProgress * 100).toFixed(0)}%
           </div>
         </div>
@@ -158,9 +152,9 @@ export function FileDropOverlay() {
 
   if (!dragging) return null;
   return (
-    <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center border-2 border-dashed border-accent-cyan/70 bg-accent-cyan/5">
-      <div className="rounded-lg bg-carbon-900/90 px-8 py-4 font-display text-lg font-bold uppercase tracking-[0.3em] text-accent-cyan shadow-hud">
-        Drop .STL / .OBJ to ingest
+    <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center border-2 border-dashed border-engineering bg-engineering/5">
+      <div className="rounded-none border border-divider bg-panel px-8 py-4 text-base font-semibold text-ink">
+        Drop .stl / .obj to ingest
       </div>
     </div>
   );
