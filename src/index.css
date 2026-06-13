@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: #07090c;
+  overscroll-behavior: none;
+}
+
+/* ---- precision slider styling ---- */
+.aero-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  background: transparent;
+  cursor: pointer;
+}
+.aero-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, rgba(34, 211, 238, 0.45), rgba(34, 211, 238, 0.12));
+}
+.aero-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -4.5px;
+  height: 12px;
+  width: 12px;
+  border-radius: 2px;
+  background: #cbd5e1;
+  border: 1px solid #22d3ee;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.45);
+  transition: background 0.12s;
+}
+.aero-range::-webkit-slider-thumb:hover {
+  background: #22d3ee;
+}
+.aero-range::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, rgba(34, 211, 238, 0.45), rgba(34, 211, 238, 0.12));
+}
+.aero-range::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border-radius: 2px;
+  background: #cbd5e1;
+  border: 1px solid #22d3ee;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.45);
+}
+
+/* ---- HUD scrollbars ---- */
+.hud-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.hud-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hud-scroll::-webkit-scrollbar-thumb {
+  background: rgba(43, 53, 69, 0.8);
+  border-radius: 3px;
+}
+.hud-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 53, 69, 0.8) transparent;
+}
