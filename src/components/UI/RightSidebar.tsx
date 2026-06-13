@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAeroStore } from '../../store';
 import type { TelemetryState } from '../../hooks/useAeroTelemetry';
 import type { TelemetrySample } from '../../types';
@@ -43,17 +43,21 @@ const FONT = '"Segoe UI", Arial, sans-serif';
 function MultiWaveform({ history }: { history: TelemetrySample[] }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
+  const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const parent = canvas.parentElement!;
+    // Read the canvas's own CSS-rendered size — never the parent, never a fallback.
+    // CSS h-full w-full sizes it correctly; inline style must not override that.
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    if (!W || !H) return;   // flex layout not settled yet — ResizeObserver will retry
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = parent.clientWidth || 260;
-    const H = parent.clientHeight || 120;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = `${W}px`;
-    canvas.style.height = `${H}px`;
+    const pw = Math.round(W * dpr);
+    const ph = Math.round(H * dpr);
+    if (canvas.width !== pw || canvas.height !== ph) {
+      canvas.width = pw;
+      canvas.height = ph;
+    }
     const ctx = canvas.getContext('2d')!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -148,6 +152,15 @@ function MultiWaveform({ history }: { history: TelemetrySample[] }) {
       ctx.fillText('Awaiting data…', W / 2, H / 2 + 4);
     }
   }, [history]);
+
+  useEffect(() => {
+    draw();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ro = new ResizeObserver(draw);
+    ro.observe(canvas);
+    return () => ro.disconnect();
+  }, [draw]);
 
   return <canvas ref={canvasRef} className="block h-full w-full" />;
 }
